@@ -1,0 +1,50 @@
+#!/bin/bash
+#
+#BSUB -J ArrayJob
+#BSUB -n 2
+#BSUB -m "node2 node3 node4 node5"
+#BSUB -oo output1.log
+#BSUB -eo error1.log
+#BSUB -R "span[ptile=1]"
+module load mpi/openmpi-x86_64
+rm GeneralTime.bin
+
+export SIZE=100000
+
+echo "Nods" | tee -a ~/Desktop/Lab2/outputrun1.log
+for i in {1..5}
+do
+        mpirun -np 4 --bind-to core --map-by core ./progMPI2 $SIZE
+        sync
+done
+./GetMiddleTime
+echo "Array size: $SIZE" | tee -a ~/Desktop/Lab2/outputrun1.log
+
+rm GeneralTime.bin
+
+export SIZE=200000
+
+echo "Nods" | tee -a ~/Desktop/Lab2/outputrun1.log
+for i in {1..5}
+do
+        mpirun -np 4 --bind-to core --map-by core ./progMPI2 $SIZE
+        sync
+done
+./GetMiddleTime
+echo "Array size: $SIZE" | tee -a ~/Desktop/Lab2/outputrun1.log
+
+rm GeneralTime.bin
+
+export SIZE=300000
+
+echo "Nods" | tee -a ~/Desktop/Lab2/outputrun1.log
+for i in {1..5}
+do
+        mpirun -np 4 --bind-to core --map-by core ./progMPI2 $SIZE
+        sync
+done
+./GetMiddleTime
+echo "Array size: $SIZE" | tee -a ~/Desktop/Lab2/outputrun1.log
+
+rm GeneralTime.bin
+
